@@ -1,0 +1,150 @@
+PROCESSOR 16F887
+
+#include <xc.inc>
+    
+CONFIG FOSC=INTRC_NOCLKOUT
+CONFIG WDTE=OFF
+CONFIG PWRTE=ON
+CONFIG MCLRE=OFF
+CONFIG CP=OFF
+CONFIG CPD=OFF
+CONFIG BOREN=OFF
+CONFIG IESO=OFF
+CONFIG FCMEN=OFF
+CONFIG LVP=OFF
+CONFIG DEBUG=ON
+
+CONFIG BOR4V=BOR40V
+CONFIG WRT=OFF
+
+GLOBAL MUL  
+PSECT udata
+MUL:
+    DS 1
+    
+PSECT resetVec,class=CODE,delta=2
+ RESETVEC:
+    PAGESEL main
+    goto main
+ 
+PSECT code 
+ num0:
+    movlw 0b1111110
+    BANKSEL PORTA
+    movwf PORTA
+    PAGESEL main
+    return    
+    
+PSECT code 
+ num1:
+    movlw 0b0110000
+    BANKSEL PORTA
+    movwf PORTA
+    PAGESEL main
+    return
+    
+PSECT code 
+ num2:
+    movlw 0b1101101
+    BANKSEL PORTA
+    movwf PORTA
+    PAGESEL main
+    return
+    
+PSECT code 
+ num3:
+    movlw 0b1111001
+    BANKSEL PORTA
+    movwf PORTA
+    PAGESEL main
+    return
+    
+PSECT code 
+ num4:
+    movlw 0b0110011
+    BANKSEL PORTA
+    movwf PORTA
+    PAGESEL main
+    return
+
+PSECT code 
+ num5:
+    movlw 0b1011011
+    BANKSEL PORTA
+    movwf PORTA
+    PAGESEL main
+    return    
+
+PSECT code 
+ num6:
+    movlw 0b1011111
+    BANKSEL PORTA
+    movwf PORTA
+    PAGESEL main
+    return
+    
+PSECT code 
+ num7:
+    movlw 0b1110000
+    BANKSEL PORTA
+    movwf PORTA
+    PAGESEL main
+    return    
+    
+    PSECT code 
+ num8:
+    movlw 0b1111111
+    BANKSEL PORTA
+    movwf PORTA
+    PAGESEL main
+    return
+    
+    PSECT code 
+ num9:
+    movlw 0b1111011
+    BANKSEL PORTA
+    movwf PORTA
+    PAGESEL main
+    return
+    
+ PSECT code
+ pausa:
+    movlw 1
+    movwf 0x20
+    suma:
+    incfsz 0x20,f
+    goto suma
+    RETURN
+    
+    
+ PSECT code
+ main:
+   BANKSEL PORTA
+   clrf PORTA
+   BANKSEL TRISA
+   clrf TRISA
+loop:
+  PAGESEL num1
+  call num0
+  call pausa
+  call num1
+  call pausa
+  call num2
+  call pausa
+  call num3
+  call pausa
+  call num4
+  call pausa
+  call num5
+  call pausa
+  call num6
+  call pausa
+  call num7
+  call pausa
+  call num8
+  call pausa
+  call num9
+  call pausa
+  goto loop
+                    ;tengo algunas dudas con ese delay, no se si son exactamente 500 ms
+END
